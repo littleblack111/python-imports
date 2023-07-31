@@ -1,3 +1,4 @@
+# text color code
 class color:
     ### ASCII
     #\33[0m   # remove all attribute
@@ -41,19 +42,15 @@ class color:
     lcyan = "\033[1;36m" # light-cyan
     white = "\033[1;37m" # white
 
+# print but formatly without \n and forcfully flush stream
 def printf(str):
     print(str, end='', flush=True)
 
-def shufflejoin(str1: str, str2: str, str3=None, str4=None, str5=None):
+# mixly(shuffle) join a list to another
+def shufflejoin(str1: str, str2: str, *:
     from random import shuffle
-    if str3:
-        if str4:
-            if str5:
-                 tmpstr = str1 + str2 + str3 + str4 + str5
-            else:
-                tmpstr = str1 + str2 + str3 + str4
-        else:
-            tmpstr = str1 + str2 + str3
+    if *:
+        tmpstr = *
     else:
         tmpstr = str1 + str2
 
@@ -61,12 +58,14 @@ def shufflejoin(str1: str, str2: str, str3=None, str4=None, str5=None):
     shuffle(tmpstrlst)
     return ''.join(tmpstrlst)
 
+# limit string to how much charactor it can use, and delete other then that
 def limitString(string: str, limit: int):
     if len(string) > limit:
         return string[0:limit]
     else:
         return string
 
+# animated
 def aprintf(str, end=None):
     from time import sleep
     waitime = 0.01
@@ -79,7 +78,8 @@ def aprintf(str, end=None):
     else:
         printf(end)
 
-def countdown(timeoutsec: int): # animated count down 3 seconds
+# animated countdown from @timeoutsec
+def countdown(timeoutsec: int):
     from time import sleep
     timeoutsec = timeoutsec
     for _ in range(timeoutsec-1):
@@ -90,3 +90,30 @@ def countdown(timeoutsec: int): # animated count down 3 seconds
         timeoutsec -= 1
         sleep(0.2)
     print(1)
+
+# animated loading with @msg
+def aloading(msg="Loading...", stop=False):
+    global stop
+    from itertools import cycle
+    from time import sleep
+    for c in cycle(['|', '/', '-', '\\']):
+        if stop:
+            break
+        printf(f"\r[{c}] {msg}")
+        sleep(0.1)
+
+# automated execute @func in background with @arg
+def bgexec(func, arg=False, stop=False):
+    from threading import Thread
+    if stop:
+        try:
+            t.join()
+        except AttributeError:
+            raise AttributeError("Thread is not started")
+        except UnboundLocalError:
+            raise UnboundLocalError("Thread is not started")
+    else:
+        if arg:
+            t = Thread(target=func, args=arg).start()
+        else:
+            t = Thread(target=func).start()
