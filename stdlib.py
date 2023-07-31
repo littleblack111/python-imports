@@ -77,8 +77,8 @@ def aprintf(*value: str, end=None):
     waitime = 0.01
     value = istr(list(value))
     ani=True
-    if len(value) >= 8*16:
-        ani = ainputf("Print string is bigger, fast animation(Y/n: ")
+    if len(value) >= 8*32:
+        ani = ainputf("Print string is bigger, fast animation(Y/n): ")
         if ani.lower() == 'y':
             ani=False
     for i in value:
@@ -103,7 +103,7 @@ def printerror(str: str, outputter=aprintf, ccolor=color.red):
     outputter(f"{ccolor}[#] {str}{color.reset}")
 
 def ainputf(str: str, end='', ccolor=color.purple):
-    aprintf(f"{ccolor}{str}", f"{end}{color.reset}", end=end)
+    aprintf(str, end=end)
     return input()
 
 def askinput(str: str, inputter=ainputf, ccolor=color.blue):
