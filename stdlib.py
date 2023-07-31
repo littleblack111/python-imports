@@ -44,17 +44,17 @@ class color:
     lcyan = "\033[1;36m" # light-cyan
     white = "\033[1;37m" # white
 
-# print but formatly without \n and forcfully flush stream
-def printf(str):
-    print(str, end='', flush=True)
+# print but formatly without newline and will flush stream
+def printf(*value: str):
+    print(str(''.join(value)), end='', flush=True)
 
 # mixly(shuffle) join a list to another
-def shufflejoin(str1: str, str2: str, *a):
+def shufflejoin(str1: str, str2: str, *others):
     from random import shuffle
-    if a:
-        tmpstr = a
-    else:
-        tmpstr = str1 + str2
+    tmpstr = str1 + str2
+    if others:
+        for i in others:
+            tmpstr += i
 
     tmpstrlst = list(tmpstr)
     shuffle(tmpstrlst)
@@ -68,11 +68,11 @@ def limitString(string: str, limit: int):
         return string
 
 # animated print
-def aprintf(str: str, end=None):
+def aprintf(*value: str, end=None):
     from time import sleep
     waitime = 0.01
-    str = list(str)
-    for i in str:
+    value = list(value)
+    for i in str(''.join(value)):
         printf(i)
         sleep(waitime)
     if end == None:
@@ -137,3 +137,7 @@ def bgexec(func, arg=False, stop=False):
             t = Thread(target=func, args=arg).start()
         else:
             t = Thread(target=func).start()
+
+# convert iterable into string
+def istr(value: iter):
+    return str(''.join(value))
