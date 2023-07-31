@@ -44,17 +44,21 @@ class color:
     lcyan = "\033[1;36m" # light-cyan
     white = "\033[1;37m" # white
 
+# convert iterable into string
+def istr(value):
+    return str(''.join(map(str, value)))
+
 # print but formatly without newline and will flush stream
 def printf(*value: str):
-    print(str(''.join(value)), end='', flush=True)
+    print(str(istr(value)), end='', flush=True)
 
 # mixly(shuffle) join a list to another
 def shufflejoin(str1: str, str2: str, *others):
     from random import shuffle
     tmpstr = str1 + str2
     if others:
-        for i in others:
-            tmpstr += i
+        for o in others:
+            tmpstr += o
 
     tmpstrlst = list(tmpstr)
     shuffle(tmpstrlst)
@@ -71,10 +75,16 @@ def limitString(string: str, limit: int):
 def aprintf(*value: str, end=None):
     from time import sleep
     waitime = 0.01
-    value = list(value)
-    for i in str(''.join(value)):
+    value = istr(list(value))
+    ani=True
+    if len(value) >= 8*16:
+        ani = ainputf("Print string is bigger, fast animation(Y/n: ")
+        if ani.lower() == 'y':
+            ani=False
+    for i in value:
         printf(i)
-        sleep(waitime)
+        if ani:
+            sleep(waitime)
     if end == None:
         printf('\n')
     else:
@@ -93,7 +103,7 @@ def printerror(str: str, outputter=aprintf, ccolor=color.red):
     outputter(f"{ccolor}[#] {str}{color.reset}")
 
 def ainputf(str: str, end='', ccolor=color.purple):
-    aprintf(f"{ccolor}{str}", f"{end}{color.reset}")
+    aprintf(f"{ccolor}{str}", f"{end}{color.reset}", end=end)
     return input()
 
 def askinput(str: str, inputter=ainputf, ccolor=color.blue):
@@ -105,7 +115,7 @@ def countdown(timeoutsec: int):
     timeoutsec = timeoutsec
     for _ in range(timeoutsec-1):
         printf(timeoutsec)
-        for _ in range(timeoutsec):
+        for _ in range(3):
             printf('.')
             sleep(0.8/3)
         timeoutsec -= 1
@@ -137,7 +147,3 @@ def bgexec(func, arg=False, stop=False):
             t = Thread(target=func, args=arg).start()
         else:
             t = Thread(target=func).start()
-
-# convert iterable into string
-def istr(value: iter):
-    return str(''.join(value))
