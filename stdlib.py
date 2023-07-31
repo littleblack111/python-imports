@@ -24,6 +24,8 @@ class color:
     #\033[0m  # un-bold
     #\033[0m  # reset \033[2m 
 
+    reset = "\33[0m"
+
     black = "\033[30m" # black
     red = "\033[31m" # red
     green = "\033[32m" # green
@@ -47,10 +49,10 @@ def printf(str):
     print(str, end='', flush=True)
 
 # mixly(shuffle) join a list to another
-def shufflejoin(str1: str, str2: str, *:
+def shufflejoin(str1: str, str2: str, *a):
     from random import shuffle
-    if *:
-        tmpstr = *
+    if a:
+        tmpstr = a
     else:
         tmpstr = str1 + str2
 
@@ -65,8 +67,8 @@ def limitString(string: str, limit: int):
     else:
         return string
 
-# animated
-def aprintf(str, end=None):
+# animated print
+def aprintf(str: str, end=None):
     from time import sleep
     waitime = 0.01
     str = list(str)
@@ -77,6 +79,25 @@ def aprintf(str, end=None):
         printf('\n')
     else:
         printf(end)
+
+def printinfo(str: str, outputter=aprintf, ccolor=color.green, selection=False):
+    if selection:
+        outputter(f"{ccolor}[+] {str}{color.reset}")
+    else:
+        outputter(f"{ccolor}[*] {str}{color.reset}")
+
+def printwarning(str: str, outputter=aprintf, ccolor=color.yellow):
+    outputter(f"{ccolor}[!] {str}{color.reset}")
+
+def printerror(str: str, outputter=aprintf, ccolor=color.red):
+    outputter(f"{ccolor}[#] {str}{color.reset}")
+
+def ainputf(str: str, end='', ccolor=color.purple):
+    aprintf(f"{ccolor}{str}", f"{end}{color.reset}")
+    return input()
+
+def askinput(str: str, inputter=ainputf, ccolor=color.blue):
+    inputter(f"{ccolor}[?] {str}{color.reset}")
 
 # animated countdown from @timeoutsec
 def countdown(timeoutsec: int):
@@ -93,7 +114,6 @@ def countdown(timeoutsec: int):
 
 # animated loading with @msg
 def aloading(msg="Loading...", stop=False):
-    global stop
     from itertools import cycle
     from time import sleep
     for c in cycle(['|', '/', '-', '\\']):
