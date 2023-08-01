@@ -1,48 +1,58 @@
-# text color code
-class color:
+# text ascii codes
+class ascii:
     ### ASCII
     #\33[0m   # remove all attribute
-    #\33[1m   # control brightness
-    #\33[4m   # underline
-    #\33[5m   # blink
-    #\33[7m   # reverse
-    #\33[8m   # disappear
+    bright = "\33[1m"   # control brightness
+    itectic = "\33[4m"  # underline
+    bold = "\033[1m"  # bold
+    blink = "\33[5m"   # blink
+    reverse = "\33[7m"   # reverse
+    disappear = "\33[8m"   # disappear
     #\33[30m -- \33[37m   # foreground
     #\33[40m -- \33[47m   # background
-    #\33[nA   # upper cursor n line
-    #\33[nB   # lower cursor n line
-    #\33[nC   # righter cursor n line
-    #\33[nD   # lefter cursor n line
-    #\33[y;xH # set cursor x/y
-    #\33[2J   # clear screen
-    #\33[K    # clear from cursor to end
-    #\33[s    # save cursor pos
-    #\33[u    # recover saved cursor pos
-    #\33[?25l # hide cursor
-    #\33[?25h # show cursor
-    #\033[1m  # bold
-    #\033[0m  # un-bold
-    #\033[0m  # reset \033[2m 
+    clear = "\33[2J"   # clear screen
+    def cursor(func, n=0, x=0, y=0):
+            if func == 'upper':
+                return f"\33[{n}A"   # upper cursor n line
+            elif func == 'lower':
+                return f"\33[{n}B"   # lower cursor n line
+            elif func == 'righter':
+                return f"\33[{n}C"   # righter cursor n line
+            elif func == 'lefter':
+                return f"\33[{n}D"   # lefter cursor n line
+            elif func == 'pos':
+                return f"\33[{y};{x}H" # set cursor x/y
+            elif func == 'clearline':
+                return "\33[K"    # clear from cursor to end
+            elif func == 'savpos':
+                return "\33[s"    # save cursor pos
+            elif func == 'recpos':
+                return "\33[u"    # recover saved cursor pos
+            elif func == 'hide':
+                return "\33[?25l" # hide cursor
+            elif func == 'show':
+                return "\33[?25h" # show cursor
 
-    reset = "\33[0m"
+    class color:
+        reset = "\33[0m"
 
-    black = "\033[30m" # black
-    red = "\033[31m" # red
-    green = "\033[32m" # green
-    yellow = "\033[33m" # yellow
-    blue = "\033[34m" # blue
-    purple = "\033[35m" # purple
-    cyan = "\033[36m" # cyan
-    gray = "\033[37m" # gray
+        black = "\033[30m" # black
+        red = "\033[31m" # red
+        green = "\033[32m" # green
+        yellow = "\033[33m" # yellow
+        blue = "\033[34m" # blue
+        purple = "\033[35m" # purple
+        cyan = "\033[36m" # cyan
+        gray = "\033[37m" # gray
 
-    lblack = "\033[1;30m" # light-black
-    lred = "\033[1;31m" # light-red
-    lgreen = "\033[1;32m" # light-green
-    lyellow = "\033[1;33m" # light-yellow
-    lblue = "\033[1;34m" # light-blue
-    lpurple = "\033[1;35m" # light-purple
-    lcyan = "\033[1;36m" # light-cyan
-    white = "\033[1;37m" # white
+        lblack = "\033[1;30m" # light-black
+        lred = "\033[1;31m" # light-red
+        lgreen = "\033[1;32m" # light-green
+        lyellow = "\033[1;33m" # light-yellow
+        lblue = "\033[1;34m" # light-blue
+        lpurple = "\033[1;35m" # light-purple
+        lcyan = "\033[1;36m" # light-cyan
+        white = "\033[1;37m" # white
 
 # convert iterable into string
 def istr(value):
@@ -90,24 +100,27 @@ def aprintf(*value: str, end=None):
     else:
         printf(end)
 
-def printinfo(str: str, outputter=aprintf, ccolor=color.green, selection=False):
+# print with info([*]) or selected([+]) and green color
+def printinfo(str: str, outputter=aprintf, ccolor=ascii.color.green, selection=False):
     if selection:
-        outputter(f"{ccolor}[+] {str}{color.reset}")
+        outputter(f"{ccolor}[+] {str}{ascii.color.reset}")
     else:
-        outputter(f"{ccolor}[*] {str}{color.reset}")
+        outputter(f"{ccolor}[*] {str}{ascii.color.reset}")
 
-def printwarning(str: str, outputter=aprintf, ccolor=color.yellow):
-    outputter(f"{ccolor}[!] {str}{color.reset}")
+# print with warning([!]) and yellow color
+def printwarning(str: str, outputter=aprintf, ccolor=ascii.color.yellow):
+    outputter(f"{ccolor}[!] {str}{ascii.color.reset}")
 
-def printerror(str: str, outputter=aprintf, ccolor=color.red):
-    outputter(f"{ccolor}[#] {str}{color.reset}")
+# print with error(#) and red color
+def printerror(str: str, outputter=aprintf, ccolor=ascii.color.red):
+    outputter(f"{ccolor}[#] {str}{ascii.color.reset}")
 
-def ainputf(str: str, end='', ccolor=color.purple):
+def ainputf(str: str, end='', ccolor=ascii.color.purple):
     aprintf(str, end=end)
     return input()
 
-def askinput(str: str, inputter=ainputf, ccolor=color.blue):
-    inputter(f"{ccolor}[?] {str}{color.reset}")
+def askinput(str: str, inputter=ainputf, ccolor=ascii.color.blue):
+    inputter(f"{ccolor}[?] {str}{ascii.color.reset}")
 
 # animated countdown from @timeoutsec
 def countdown(timeoutsec: int):
@@ -147,3 +160,25 @@ def bgexec(func, arg=False, stop=False):
             t = Thread(target=func, args=arg).start()
         else:
             t = Thread(target=func).start()
+
+# catch & handle signals
+def sigcatch(sig, error=None, sysexit=False):
+    from signal import signal
+    if error == None:
+        def handler(sig, stack):
+            printerror(f"catched kill signal: {sig}")
+            if sysexit:
+                import sys.exit
+                sys.exit(sig)
+    elif error:
+        def handler(sig, stack):
+            printerror(error)
+            if sysexit:
+                sys.exit(sig)
+    if sig == str:
+        from signal import sig
+        signal(signal.sig, handler)
+    elif sig == int:
+        signal(sig, handler)
+    else:
+        raise TypeError("Please Enter a int(signal number, like 15) or str(signal name, like SIGTERM)
