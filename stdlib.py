@@ -1,3 +1,11 @@
+#!/dev/null
+
+# imports
+from rich import console.Console() as console
+from rich import syntax.Syntax() as syntax
+from rich import print as rprint
+
+
 # text ascii codes
 class ascii:
     ### ASCII
@@ -11,7 +19,7 @@ class ascii:
     #\33[30m -- \33[37m   # foreground
     #\33[40m -- \33[47m   # background
     clear = "\33[2J"   # clear screen
-    def cursor(func, n=0, x=0, y=0):
+    def cursor(self, func, n=0, x=0, y=0):
             if func == 'upper':
                 return f"\33[{n}A"   # upper cursor n line
             elif func == 'lower':
@@ -75,7 +83,7 @@ def shufflejoin(str1: str, str2: str, *others):
     return ''.join(tmpstrlst)
 
 # limit string to how much charactor it can use, and delete other then that
-def limitString(string: str, limit: int):
+def limitstring(string: str, limit: int):
     if len(string) > limit:
         return string[0:limit]
     else:
@@ -162,9 +170,11 @@ def bgexec(func, arg=False, stop=False):
             t = Thread(target=func).start()
 
 # catch & handle signals
-def sigcatch(sig, error=None, sysexit=False):
+def sigcatch(sig, error=None, sysexit=False, handler=None):
     from signal import signal
-    if error == None:
+    if handler != None:
+        pass
+    elif error == None:
         def handler(sig, stack):
             printerror(f"catched kill signal: {sig}")
             if sysexit:
@@ -181,4 +191,9 @@ def sigcatch(sig, error=None, sysexit=False):
     elif sig == int:
         signal(sig, handler)
     else:
-        raise TypeError("Please Enter a int(signal number, like 15) or str(signal name, like SIGTERM)
+        raise TypeError("Please input @sig as a int(signal number, like 15) or str(signal name, like SIGTERM")
+
+
+# self test
+if __name__ == '__main__':
+    from stdlib import *
