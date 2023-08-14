@@ -1,10 +1,11 @@
 #!/dev/null
 
 # imports
-from rich import console.Console() as console
-from rich import syntax.Syntax() as syntax
+from rich.console import Console as console
+from rich.syntax import Syntax as syntax
 from rich import print as rprint
 from configparser import ConfigParser as config
+from argparse import ArgumentParser as arg
 
 
 # text ascii codes
