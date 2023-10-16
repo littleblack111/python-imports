@@ -68,6 +68,44 @@ class ascii:
 def istr(value):
     return str(''.join(map(str, value)))
 
+# convert color types
+
+# convert RGB to hex
+def rgb2hex(r: int, g: int, b: int) -> int:
+    hex_value = f"{r:02x}{g:02x}{b:02x}"
+    return hex_value
+
+# convert RGB to ASCII
+def rgb2ascii(r: int, g: int, b: int) -> int:
+    ascii_value = (r + g + b) // 3
+    return ascii_value
+
+# convert hex to RGB
+def hex2rgb(hex_value: int) -> list:
+    r = int(hex_value[1:3], 16)
+    g = int(hex_value[3:5], 16)
+    b = int(hex_value[5:7], 16)
+    return [r, g, b]
+
+# convert hex to ASCII
+def hex2ascii(hex_value: int) -> int:
+    rgb_values = hex2rgb(hex_value)
+    ascii_value = rgb2ascii(*rgb_values)
+    return ascii_value
+
+# convert ASCII to hex
+def ascii2hex(ascii_value: int) -> int:
+    hex_value = hex(ascii_value)[2:]
+    if len(hex_value) % 2 != 0:
+        hex_value = "0" + hex_value
+    return hex_value
+
+# convert ASCII to RGB
+def ascii2rgb(ascii_value: int) -> list:
+    hex_value = ascii2hex(ascii_value)
+    rgb_values = hex2rgb(hex_value)
+    return rgb_values
+
 # print but formatly without newline and will flush stream
 def printf(*value: str):
     print(str(istr(value)), end='', flush=True)
@@ -111,19 +149,19 @@ def aprintf(*value: str, end=None):
         printf(end)
 
 # print with info([*]) or selected([+]) and green color
-def printinfo(str: str, outputter=aprintf, ccolor=ascii.color.green, selection=False):
+def printinfo(str: str, outputter=aprintf, ccolor=ascii.color.green, selection=False, end=None):
     if selection:
-        outputter(f"{ccolor}[+] {str}{ascii.color.reset}")
+        outputter(f"{ccolor}[+] {str}{ascii.color.reset}", end=end)
     else:
-        outputter(f"{ccolor}[*] {str}{ascii.color.reset}")
+        outputter(f"{ccolor}[*] {str}{ascii.color.reset}", end=end)
 
 # print with warning([!]) and yellow color
-def printwarning(str: str, outputter=aprintf, ccolor=ascii.color.yellow):
-    outputter(f"{ccolor}[!] {str}{ascii.color.reset}")
+def printwarning(str: str, outputter=aprintf, ccolor=ascii.color.yellow, end=None):
+    outputter(f"{ccolor}[!] {str}{ascii.color.reset}", end=end)
 
 # print with error(#) and red color
-def printerror(str: str, outputter=aprintf, ccolor=ascii.color.red):
-    outputter(f"{ccolor}[#] {str}{ascii.color.reset}")
+def printerror(str: str, outputter=aprintf, ccolor=ascii.color.red, end=None):
+    outputter(f"{ccolor}[#] {str}{ascii.color.reset}", end=end)
 
 def ainputf(str: str, end='', ccolor=ascii.color.purple):
     aprintf(str, end=end)
