@@ -4,7 +4,6 @@
 from rich.console import Console as console
 from rich.syntax import Syntax as syntax
 from rich import print as rprint
-from configparser import ConfigParser as config
 from argparse import ArgumentParser as arg
 
 
@@ -65,7 +64,7 @@ class ascii:
         white = "\033[1;37m" # white
 
 # convert iterable into string
-def istr(value):
+def i2str(value):
     return str(''.join(map(str, value)))
 
 # convert color types
@@ -108,7 +107,7 @@ def ascii2rgb(ascii_value: int) -> list:
 
 # print but formatly without newline and will flush stream
 def printf(*value: str):
-    print(str(istr(value)), end='', flush=True)
+    print(str(i2str(value)), end='', flush=True)
 
 # mixly(shuffle) join a list to another
 def shufflejoin(str1: str, str2: str, *others):
@@ -130,10 +129,9 @@ def limitstring(string: str, limit: int):
         return string
 
 # animated print
-def aprintf(*value: str, end=None):
+def aprintf(*value: str, interval=0.01, end=None):
     from time import sleep
-    waitime = 0.01
-    value = istr(list(value))
+    value = i2str(list(value))
     ani=True
     if len(value) >= 8*32:
         ani = ainputf("Print string is bigger, fast animation(Y/n): ")
@@ -142,7 +140,7 @@ def aprintf(*value: str, end=None):
     for i in value:
         printf(i)
         if ani:
-            sleep(waitime)
+            sleep(interval)
     if end == None:
         printf('\n')
     else:
@@ -168,7 +166,7 @@ def ainputf(str: str, end='', ccolor=ascii.color.purple):
     return input()
 
 def askinput(str: str, inputter=ainputf, ccolor=ascii.color.blue):
-    inputter(f"{ccolor}[?] {str}{ascii.color.reset}")
+    return inputter(f"{ccolor}[?] {str}{ascii.color.reset}")
 
 # animated countdown from @timeoutsec
 def countdown(timeoutsec: int):
