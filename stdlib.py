@@ -64,8 +64,8 @@ class ascii:
         white = "\033[1;37m" # white
 
 # convert iterable into string
-def i2str(value):
-    return str(''.join(map(str, value)))
+def i2str(value, spacing=' '):
+    return str(spacing.join(map(str, value)))
 
 # convert color types
 
@@ -81,10 +81,16 @@ def rgb2ascii(r: int, g: int, b: int) -> int:
 
 # convert hex to RGB
 def hex2rgb(hex_value: int) -> list:
-    r = int(hex_value[1:3], 16)
-    g = int(hex_value[3:5], 16)
-    b = int(hex_value[5:7], 16)
-    return [r, g, b]
+    # Remove the '#' symbol if present
+    hex_value = hex_value.lstrip('#')
+    
+    # Convert the hexadecimal value to RGB
+    red = int(hex_value[0:2], 16)
+    green = int(hex_value[2:4], 16)
+    blue = int(hex_value[4:6], 16)
+    
+    # Return the RGB values as a list
+    return [red, green, blue]
 
 # convert hex to ASCII
 def hex2ascii(hex_value: int) -> int:
@@ -93,17 +99,23 @@ def hex2ascii(hex_value: int) -> int:
     return ascii_value
 
 # convert ASCII to hex
-def ascii2hex(ascii_value: int) -> int:
-    hex_value = hex(ascii_value)[2:]
-    if len(hex_value) % 2 != 0:
-        hex_value = "0" + hex_value
+def ascii2hex(ascii_value: int) -> str:
+    red = ascii_value % 256
+    green = (ascii_value // 256) % 256
+    blue = (ascii_value // 256 // 256) % 256
+
+    hex_value = f"#{red:02X}{green:02X}{blue:02X}"
     return hex_value
 
 # convert ASCII to RGB
 def ascii2rgb(ascii_value: int) -> list:
-    hex_value = ascii2hex(ascii_value)
-    rgb_values = hex2rgb(hex_value)
-    return rgb_values
+    # Map the ASCII value to an RGB value
+    red = ascii_value % 256
+    green = (ascii_value // 256) % 256
+    blue = (ascii_value // 256 // 256) % 256
+    
+    # Return the RGB values as a list
+    return [red, green, blue]
 
 # print but formatly without newline and will flush stream
 def printf(*value: str):
@@ -235,3 +247,5 @@ def sigcatch(sig, error=None, sysexit=False, handler=None):
 # self test
 if __name__ == '__main__':
     from stdlib import *
+    from test import *
+    tests()
