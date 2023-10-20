@@ -193,6 +193,7 @@ def countdown(timeoutsec: int):
         sleep(0.2)
     print(1)
 
+# TODO: make aloading() in threading
 # animated loading with @msg
 def aloading(msg="Loading...", stop=False):
     from itertools import cycle
@@ -219,6 +220,7 @@ def bgexec(func, arg=False, stop=False):
         else:
             t = Thread(target=func).start()
 
+# TODO: fix this "TypeError: Please input @sig as a int(signal number, like 15) or str(signal name, like SIGTERM", tried signal.SIGINT, or str(signal name, like SIGTERM)
 # catch & handle signals
 def sigcatch(sig, error=None, sysexit=False, handler=None):
     from signal import signal
