@@ -50,8 +50,6 @@ def tests():
 
     #aloading("hello from aloding")
 
-    # TODO: make aloading() in threading
-
     bgexec(print, "hello from bgexec")
 
     # def testhandler():
@@ -60,8 +58,6 @@ def tests():
     # import signal
     # sigcatch(sig="SIGINT", error="catched kill signal", handler=testhandler)
     # del testhandler, signal
-
-    # TODO: fix this "TypeError: Please input @sig as a int(signal number, like 15) or str(signal name, like SIGTERM", tried signal.SIGINT, or str(signal name, like SIGTERM)
 
 if __name__ == "__main__":
     tests()
