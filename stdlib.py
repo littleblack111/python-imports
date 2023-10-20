@@ -122,7 +122,7 @@ def printf(*value: str):
     print(str(i2str(value)), end='', flush=True)
 
 # mixly(shuffle) join a list to another
-def shufflejoin(str1: str, str2: str, *others):
+def shufflejoinlst(str1: str, str2: str, *others) -> list:
     from random import shuffle
     tmpstr = str1 + str2
     if others:
@@ -131,7 +131,7 @@ def shufflejoin(str1: str, str2: str, *others):
 
     tmpstrlst = list(tmpstr)
     shuffle(tmpstrlst)
-    return ''.join(tmpstrlst)
+    return tmpstrlst
 
 # limit string to how much charactor it can use, and delete other then that
 def limitstring(string: str, limit: int):
