@@ -1,12 +1,5 @@
 #!/dev/null
 
-# imports
-from rich.console import Console as console
-from rich.syntax import Syntax as syntax
-from rich import print as rprint
-from argparse import ArgumentParser as arg
-
-
 # text ascii codes
 class ascii:
 	### ASCII
@@ -175,7 +168,12 @@ def printerror(str: str, outputter=aprintf, ccolor=ascii.color.red, end=None):
 
 def ainputf(str: str, end='', ccolor=ascii.color.purple):
 	aprintf(str, end=end)
+	import readline
 	return input()
+
+def input(*arg):
+    import readline
+    input(*arg)
 
 def askinput(str: str, inputter=ainputf, ccolor=ascii.color.blue):
 	return inputter(f"{ccolor}[?] {str}{ascii.color.reset}")
