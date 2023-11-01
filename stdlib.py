@@ -146,7 +146,7 @@ def aprintf(*value: str, interval=0.01, end=None):
 		printf(i)
 		if ani:
 			sleep(interval)
-	if end == None:
+	if end is None:
 		printf(f'{ascii.color.reset}\n')
 	else:
 		printf(end)
@@ -245,9 +245,9 @@ def runutil(file: str, *arg) -> any:
 # catch & handle signals
 def sigcatch(sig, error=None, sysexit=False, handler=None):
 	from signal import signal
-	if handler != None:
+	if handler is not None:
 		pass
-	elif error == None:
+	elif error is None:
 		def handler(sig, stack):
 			printerror(f"catched kill signal: {sig}")
 			if sysexit:
