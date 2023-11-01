@@ -1,4 +1,3 @@
-from socketserver import ThreadingUnixStreamServer
 from stdlib import *
 
 # TODO: try to make user no need to press any key to continue when doing input(test)
@@ -62,4 +61,5 @@ def tests():
 if __name__ == "__main__":
     tests()
 else:
-    print("Tests from test.py")
+    print("Starting tests from test.py")
+    tests()
