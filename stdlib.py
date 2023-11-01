@@ -251,13 +251,13 @@ def sigcatch(sig, error=None, sysexit=False, handler=None):
 		def handler(sig, stack):
 			printerror(f"catched kill signal: {sig}")
 			if sysexit:
-				import sys.exit
-				sys.exit(sig)
+				from sys import exit as sysexit
+				sysexit(sig)
 	elif error:
 		def handler(sig, stack):
 			printerror(error)
 			if sysexit:
-				sys.exit(sig)
+				sysexit(sig)
 	if sig == str:
 		from signal import sig
 		signal(signal.sig, handler)
