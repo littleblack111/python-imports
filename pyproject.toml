@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stdlib_littleblack111"
+version = "0.0.1"
+authors = [
+	{ name="littleblack111", email="littleblack11111@gmail.com" },
+]
+description = "A Package that's standerd to write code in python"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GPL License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/littleblack111/stdlib"
+"Bug Tracker" = "https://github.com/littleblack111/stdlib/issues"
