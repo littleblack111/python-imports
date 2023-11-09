@@ -1,0 +1,8 @@
+LICENSE
+README.md
+pyproject.toml
+stdlib.py
+stdlib_littleblack111.egg-info/PKG-INFO
+stdlib_littleblack111.egg-info/SOURCES.txt
+stdlib_littleblack111.egg-info/dependency_links.txt
+stdlib_littleblack111.egg-info/top_level.txt

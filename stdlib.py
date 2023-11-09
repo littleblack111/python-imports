@@ -173,6 +173,7 @@ def ainputf(str: str, end='', ccolor=ascii.color.purple):
 
 def input(*arg):
     import readline
+    from builtins import input
     input(*arg)
 
 def askinput(str: str, inputter=ainputf, ccolor=ascii.color.blue):
