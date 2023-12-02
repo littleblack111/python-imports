@@ -1,3 +1,3 @@
 #!/bin/bash
 echo Generating Files...
-pip wheel . && Generate Success || Generate Failed
+pip wheel . && echo Generate Success || echo Generate Failed
