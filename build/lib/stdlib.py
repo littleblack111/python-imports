@@ -185,6 +185,10 @@ def keepasks(info: str, inputter=ainputf, *inputargs):
 		tmprespond = inputter(info, *inputargs)
 	return tmprespond
 
+def rawinput():
+	from readchar import readkey
+	return readkey()
+
 # animated countdown from @timeoutsec
 def countdown(timeoutsec: int):
 	from time import sleep
